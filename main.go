@@ -19,21 +19,12 @@ func getIp(r *http.Request) string {
 	return strings.Split(ip, ":")[0]
 }
 
-func index(template *template.Template) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		err := template.Execute(w, IndexContext{Ip: getIp(r)})
-		if err != nil {
-			panic(err)
-		}
-	}
-}
-
 func simple(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, getIp(r))
 }
 
 func main() {
-	t := template.Must(template.New("index.tmpl").ParseFiles("index.tmpl"))
+	t := template.Must(template.New("index.tmpl").Parse(indexTemplate))
 	http.HandleFunc("/", index(t))
 	http.HandleFunc("/simple", simple)
 

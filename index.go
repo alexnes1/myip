@@ -1,3 +1,11 @@
+package main
+
+import (
+	"html/template"
+	"net/http"
+)
+
+var indexTemplate string = `
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,3 +28,13 @@
 	<header><h1>Your IP: {{ .Ip }}</h1></header>
     </body>
 </html>
+`
+
+func index(template *template.Template) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		err := template.Execute(w, IndexContext{Ip: getIp(r)})
+		if err != nil {
+			panic(err)
+		}
+	}
+}
