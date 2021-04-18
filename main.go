@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -28,5 +29,5 @@ func main() {
 	http.HandleFunc("/", index(t))
 	http.HandleFunc("/simple", simple)
 
-	http.ListenAndServe(":9000", nil)
+	http.ListenAndServe(os.Getenv("MYIP_ADDR"), nil)
 }
