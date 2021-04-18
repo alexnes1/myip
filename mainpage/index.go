@@ -1,9 +1,18 @@
-package main
+package mainpage
 
 import (
 	"html/template"
 	"net/http"
 )
+
+type indexContext struct {
+	Ip string
+}
+
+type IndexPage struct {
+	templateString string
+	template       *template.Template
+}
 
 var indexTemplate string = `
 <!DOCTYPE html>
@@ -30,11 +39,21 @@ var indexTemplate string = `
 </html>
 `
 
-func index(template *template.Template) http.HandlerFunc {
+func (i *IndexPage) prepareTemplate() {
+	i.template = template.Must(template.New("index.tmpl").Parse(i.templateString))
+}
+
+func (i *IndexPage) GetHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		err := template.Execute(w, IndexContext{Ip: getIp(r)})
+		err := i.template.Execute(w, indexContext{Ip: GetIp(r)})
 		if err != nil {
 			panic(err)
 		}
 	}
+}
+
+func New() IndexPage {
+	index := IndexPage{templateString: indexTemplate}
+	index.prepareTemplate()
+	return index
 }
