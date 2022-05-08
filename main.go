@@ -15,7 +15,7 @@ func simple(w http.ResponseWriter, r *http.Request) {
 func main() {
 	indexPage := mainpage.New()
 	http.HandleFunc("/", indexPage.GetHandler())
-	http.HandleFunc("/simple", simple)
+	http.HandleFunc("/txt", simple)
 
 	http.ListenAndServe(os.Getenv("MYIP_ADDR"), nil)
 }
