@@ -30,6 +30,7 @@ var indexTemplate string = `
 	    line-height: 1.6em;
 	    font-size: 18px;
 	    padding: 0;
+		text-align: center;
 	}
 	</style>
     </head>
